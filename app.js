@@ -159,7 +159,7 @@
     if (weak) weak.classList.toggle('hidden', drank);
     if (btn) {
       btn.setAttribute('aria-pressed', drank ? 'true' : 'false');
-      btn.textContent = drank ? texts.btnDrankUndo; : texts.btnDrank;
+      btn.textContent = drank ? texts.btnDrankUndo : texts.btnDrank;
     }
     if (status) {
       status.textContent = drank ? texts.statusDone : texts.statusNotDone;
