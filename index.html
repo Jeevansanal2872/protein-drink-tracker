@@ -30,7 +30,7 @@
       </div>
       <div id="main-clock-label" class="navbar-location"></div>
     </div>
-
+    <p id="date-text" class="date-text" aria-live="polite"></p>
     <div class="header-right">
       <div class="language-picker" style="margin-right: 1rem;">
         <select id="lang-select" aria-label="Select Language">
@@ -45,8 +45,11 @@
   </header>
 
   <div class="main-content">
-    <p id="date-text" class="date-text" aria-live="polite"></p>
-
+    
+    <div id="history-log" class="history-log" aria-label="7-day history log">
+      <!-- Populated by JS -->
+    </div>
+    
     <div class="graphic-container" aria-hidden="true">
       <img id="arm-flexed" class="graphic-img hidden" src="images/drank.png" alt="Protein drank today" />
       <img id="arm-weak" class="graphic-img" src="images/not-drank.png" alt="Protein not yet drank today" />
@@ -56,6 +59,8 @@
       <p id="status-text" class="status"></p>
       <p id="streak-text" class="streak-text" aria-live="polite"></p>
     </div>
+
+    
 
     <button type="button" id="toggle-btn" class="toggle-btn" aria-pressed="false">
       I drank my protein

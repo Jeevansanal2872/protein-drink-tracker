@@ -309,6 +309,52 @@
         lastTimeEl.textContent = '';
       }
     }
+    updateHistoryLog();
+  }
+
+  function updateHistoryLog() {
+    const logContainer = document.getElementById('history-log');
+    if (!logContainer) return;
+
+    const stored = loadState();
+    const history = stored.history || [];
+    const historySet = new Set(history);
+    const todayKey = getDateKey();
+    let html = '';
+
+    // Last 7 days including today
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      // App day logic: if currently before 2am, today is still "yesterday"
+      const currentHour = new Date().getHours();
+      if (currentHour < RESET_HOUR) {
+        d.setDate(d.getDate() - 1);
+      }
+      d.setDate(d.getDate() - i);
+
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const key = y + '-' + m + '-' + day;
+
+      const isToday = key === todayKey;
+      let status = '⚪';
+      if (historySet.has(key)) {
+        status = '✅';
+      } else if (isToday && getCurrentDrank()) {
+        status = '✅';
+      }
+
+      const dayName = d.toLocaleDateString(currentLang, { weekday: 'narrow' });
+
+      html += `
+        <div class="history-day">
+          <span class="day-label">${dayName}</span>
+          <span class="day-status" title="${key}">${status}</span>
+        </div>
+      `;
+    }
+    logContainer.innerHTML = html;
   }
 
   function handleToggle() {

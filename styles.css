@@ -276,6 +276,41 @@ body {
   animation: pulse 2s infinite;
 }
 
+/* History Log */
+.history-log {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 1rem 0;
+  background: var(--glass-bg);
+  padding: 1.2rem 0.8rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  width: 100%;
+  max-width: 320px;
+}
+
+.history-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.day-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.day-status {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
 /* Toggle Button */
 .toggle-btn {
   padding: 1rem 2.5rem;
