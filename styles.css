@@ -311,6 +311,17 @@ body {
   line-height: 1;
 }
 
+/* Motivational Quote */
+.motivational-quote {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0.5rem 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
 /* Toggle Button */
 .toggle-btn {
   padding: 1rem 2.5rem;

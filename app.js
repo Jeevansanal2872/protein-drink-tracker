@@ -46,6 +46,18 @@
     }
   };
 
+  // 2. motivational quotes
+  const motivationalQuotes = [
+    "Stay strong! 💪",
+    "Consistency is key! 🔑",
+    "One sip at a time! 🥤",
+    "Fuel your body! ⚡",
+    "You're doing great! 🌟",
+    "Hydrate and thrive! 💧",
+    "Keep the streak alive! 🔥",
+    "Protein power! 🏋️‍♂️"
+  ];
+
   // Get preferred language (default: en)
   let currentLang = localStorage.getItem(LANG_KEY) || 'en';
 
@@ -284,6 +296,19 @@
     setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   }
 
+  /* --- Motivational Quote Functions --- */
+  function getDailyQuote() {
+    const todayKey = getDateKey();
+    const storedQuoteKey = localStorage.getItem('proteinDailyQuote');
+    if (storedQuoteKey && storedQuoteKey.startsWith(todayKey)) {
+      const index = parseInt(storedQuoteKey.split('-')[1]);
+      return motivationalQuotes[index] || motivationalQuotes[0];
+    }
+    const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+    localStorage.setItem('proteinDailyQuote', `${todayKey}-${randomIndex}`);
+    return motivationalQuotes[randomIndex];
+  }
+
   /* --- UI Functions --- */
   function updateUI(drank) {
     const dateKey = getDateKey();
@@ -320,6 +345,10 @@
       }
     }
     updateHistoryLog();
+
+    // Update motivational quote
+    const quoteEl = document.getElementById('motivational-quote');
+    if (quoteEl) quoteEl.textContent = getDailyQuote();
   }
 
   function updateHistoryLog() {
