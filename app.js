@@ -11,6 +11,7 @@
   const WORLD_CITIES = [
     { name: 'New York', timeZone: 'America/New_York' },
     { name: 'London', timeZone: 'Europe/London' },
+    { name: 'İstanbul', timeZone: 'Europe/Istanbul' },
     { name: 'Tokyo', timeZone: 'Asia/Tokyo' },
     { name: 'Sydney', timeZone: 'Australia/Sydney' }
   ];
@@ -43,7 +44,15 @@
       statusDone: "Eiwit voor vandaag gedronken.",
       statusNotDone: "Nog niet vandaag.",
       statusStreak: "dag(en) op rij!"
-    }
+    },
+    tr: {
+      title: "Proteinli İçecek Takipçisi",
+      btnDrank: "Proteinimi içtim",
+      btnDrankUndo: "Geri al",
+      statusDone: "Bugünkü protein içildi.",
+      statusNotDone: "Bugün henüz protein içilmedi.",
+      statusStreak: "günlük seri!",
+    },
   };
 
   // 2. motivational quotes
@@ -85,13 +94,23 @@
 
   function formatDisplayDate(dateKey) {
     const d = parseDateKey(dateKey);
-    return d.toLocaleDateString(currentLang, { weekday: 'long', month: 'short', day: 'numeric' });
+    return d.toLocaleDateString(currentLang, {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+    });
   }
 
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return { dateKey: null, drank: false, drinkTimestamps: [], history: [] };
+      if (!raw)
+        return {
+          dateKey: null,
+          drank: false,
+          drinkTimestamps: [],
+          history: [],
+        };
       const data = JSON.parse(raw);
       const history = Array.isArray(data.history) ? data.history : [];
       const drinkTimestamps = Array.isArray(data.drinkTimestamps) ? data.drinkTimestamps : [];
@@ -129,11 +148,17 @@
     const dateKey = getDateKey();
     const stored = loadState();
     let history = stored.history || [];
-    if (stored.dateKey === dateKey && stored.drank && !history.includes(dateKey)) {
+    if (
+      stored.dateKey === dateKey &&
+      stored.drank &&
+      !history.includes(dateKey)
+    ) {
       history = history.concat([dateKey]);
       saveState(dateKey, true, history, stored.drinkTimestamps);
     } else if (stored.dateKey === dateKey && !stored.drank) {
-      history = history.filter(function (k) { return k !== dateKey; });
+      history = history.filter(function (k) {
+        return k !== dateKey;
+      });
     }
     return history;
   }
@@ -186,7 +211,7 @@
   function initReminder() {
     if (!localStorage.getItem(REMINDER_KEY)) {
       localStorage.setItem(REMINDER_KEY, JSON.stringify({
-        enabled: true,
+          enabled: true,
         time: '09:00',
         lastNotified: null
       }));
@@ -227,8 +252,8 @@
   function initLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(async (pos) => {
-        const { latitude, longitude } = pos.coords;
-        userLocation.city = await fetchCityName(latitude, longitude);
+          const { latitude, longitude } = pos.coords;
+          userLocation.city = await fetchCityName(latitude, longitude);
         const el = document.getElementById('main-clock-label');
         if (el) el.textContent = 'Time in ' + userLocation.city;
       }, () => {
@@ -398,7 +423,7 @@
 
   function handleToggle() {
     const drank = toggleDrank();
-    updateUI(drank);
+    updateUI(drank);  
     navigator.vibrate?.(50);
     if (drank) {
       console.log('[App] drank=true, attempting notification');
@@ -434,7 +459,7 @@
       animation: slideIn 0.3s ease-out;
     `;
     document.body.appendChild(alert);
-    
+
     setTimeout(() => {
       alert.style.animation = 'slideOut 0.3s ease-out';
       setTimeout(() => alert.remove(), 300);
